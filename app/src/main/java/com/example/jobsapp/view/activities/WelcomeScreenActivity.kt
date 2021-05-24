@@ -1,7 +1,8 @@
-package com.example.jobsapp
+package com.example.jobsapp.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.jobsapp.R
 
 class WelcomeScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

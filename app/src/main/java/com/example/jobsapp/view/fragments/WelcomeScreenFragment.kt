@@ -1,4 +1,4 @@
-package com.example.jobsapp
+package com.example.jobsapp.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import com.example.jobsapp.R
 import com.example.jobsapp.databinding.FragmentWelcomeScreenBinding
 
 

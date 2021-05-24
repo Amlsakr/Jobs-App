@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/welcomeScreenFragment"
-        android:name="com.example.jobsapp.WelcomeScreenFragment"
+        android:name="com.example.jobsapp.view.fragments.WelcomeScreenFragment"
         android:label="fragment_welcome_screen"
         tools:layout="@layout/fragment_welcome_screen" >
         <action
@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.jobsapp.HomeFragment"
+        android:name="com.example.jobsapp.view.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/jobDetailsFragment"
-        android:name="com.example.jobsapp.JobDetailsFragment"
+        android:name="com.example.jobsapp.view.fragments.JobDetailsFragment"
         android:label="fragment_job_details"
         tools:layout="@layout/fragment_job_details" />
 </navigation>
