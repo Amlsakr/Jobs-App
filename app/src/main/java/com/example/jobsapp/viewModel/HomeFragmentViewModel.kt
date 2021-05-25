@@ -9,13 +9,14 @@ import com.example.jobsapp.data.repository.MainRepository
 import com.example.jobsapp.data.utilities.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class HomeFragmentViewModel  constructor(private val mainRepository : MainRepository): ViewModel(){
+class HomeFragmentViewModel  @Inject constructor(private val mainRepository : MainRepository): ViewModel(){
 
-    private val _res = MutableLiveData<Resource<JobModel>>()
+    private val _res = MutableLiveData<Resource<List<JobModel>>>()
 
-    val res : LiveData<Resource<JobModel>>
+    val res : LiveData<Resource<List<JobModel>>>
     get() = _res
 
     init {
