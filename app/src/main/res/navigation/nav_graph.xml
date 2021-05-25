@@ -27,5 +27,9 @@
         android:id="@+id/jobDetailsFragment"
         android:name="com.example.jobsapp.view.fragments.JobDetailsFragment"
         android:label="fragment_job_details"
-        tools:layout="@layout/fragment_job_details" />
+        tools:layout="@layout/fragment_job_details" >
+    <argument
+        android:name="jobItem"
+        app:argType="com.example.jobsapp.data.model.JobModel" />
+    </fragment>
 </navigation>

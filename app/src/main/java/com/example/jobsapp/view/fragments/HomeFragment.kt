@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.jobsapp.R
+import com.example.jobsapp.data.model.JobModel
 import com.example.jobsapp.data.utilities.Status
 import com.example.jobsapp.databinding.FragmentHomeBinding
 import com.example.jobsapp.view.adapters.HomeAdapter
@@ -17,7 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment() , ItemClickListener{
 
     private lateinit var binding: FragmentHomeBinding
     private val homeFragmentViewModel : HomeFragmentViewModel by viewModels()
@@ -33,7 +34,7 @@ class HomeFragment : Fragment() {
                     binding.progress.visibility = View.GONE
                     binding.homeRecyclerView.visibility = View.VISIBLE
                     it.data.let { res ->
-                        homeAdapter = HomeAdapter(requireContext(), res!!)
+                        homeAdapter = HomeAdapter(requireContext(), res!!, this)
                         binding.homeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
                         binding.homeRecyclerView.adapter = homeAdapter
 
@@ -54,6 +55,11 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    override fun onClick(jobItem: JobModel) {
+
+        val action = HomeFragmentDirections.actionHomeFragmentToJobDetailsFragment(jobItem)
+        view?.findNavController()?.navigate(action)
+    }
 
 
 }

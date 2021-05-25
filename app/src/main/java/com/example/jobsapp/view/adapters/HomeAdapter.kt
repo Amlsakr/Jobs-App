@@ -8,12 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.jobsapp.data.model.JobModel
 import com.example.jobsapp.databinding.JobItemBinding
+import com.example.jobsapp.view.fragments.ItemClickListener
 
-class HomeAdapter (var context : Context,var jobList : List<JobModel>) : RecyclerView.Adapter<HomeAdapter.JobsViewHolder>() {
-
-
-
-
+class HomeAdapter (val context : Context,var jobList : List<JobModel> , val itemClickListener : ItemClickListener)
+    : RecyclerView.Adapter<HomeAdapter.JobsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobsViewHolder {
         val jobItemViewBinding =
             JobItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,6 +23,9 @@ class HomeAdapter (var context : Context,var jobList : List<JobModel>) : Recycle
         holder.jobItemBinding.companyName.text = jobList.get(position).company
         holder.jobItemBinding.jobTitle.text = jobList.get(position).title
         Glide.with(context).load(jobList.get(position).companyLogo).into(holder.jobItemBinding.companyLogo)
+        holder.jobItemBinding.holder.setOnClickListener {
+            itemClickListener.onClick(jobList.get(position))
+        }
 
     }
 
