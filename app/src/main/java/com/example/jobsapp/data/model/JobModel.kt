@@ -2,7 +2,7 @@ package com.example.jobsapp.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Response(
+data class JobModel(
 
 	@field:SerializedName("company_logo")
 	val companyLogo: String? = null,
