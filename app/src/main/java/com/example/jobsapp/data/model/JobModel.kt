@@ -2,9 +2,13 @@ package com.example.jobsapp.data.model
 
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
+@Entity(tableName = "job_table")
 @Parcelize
 data class JobModel(
 	@field:SerializedName("company_logo")
@@ -28,6 +32,7 @@ data class JobModel(
 	@field:SerializedName("location")
 	val location: String? = null,
 
+	@PrimaryKey
 	@field:SerializedName("id")
 	val id: String? = null,
 
@@ -40,47 +45,3 @@ data class JobModel(
 	@field:SerializedName("url")
 	val url: String? = null
 ) : Parcelable
-//{
-//	constructor(parcel: Parcel) : this(
-//		parcel.readString(),
-//		parcel.readString(),
-//		parcel.readString(),
-//		parcel.readString(),
-//		parcel.readString(),
-//		parcel.readString(),
-//		parcel.readString(),
-//		parcel.readString(),
-//		parcel.readString(),
-//		parcel.readString(),
-//		parcel.readString()
-//	) {
-//	}
-//
-//	override fun describeContents(): Int {
-//		TODO("Not yet implemented")
-//	}
-//
-//	override fun writeToParcel(parcel: Parcel?, flags: Int) {
-//		parcel?.writeString(companyLogo)
-//		parcel?.writeString(howToApply)
-//		parcel?.writeString(createdAt)
-//		parcel?.writeString(description)
-//		parcel?.writeString(company)
-//		parcel?.writeString(companyUrl)
-//		parcel?.writeString(location)
-//		parcel?.writeString(id)
-//		parcel?.writeString(type)
-//		parcel?.writeString(title)
-//		parcel?.writeString(url)
-//	}
-//
-//	companion object CREATOR : Parcelable.Creator<JobModel> {
-//		override fun createFromParcel(parcel: Parcel): JobModel {
-//			return JobModel(parcel)
-//		}
-//
-//		override fun newArray(size: Int): Array<JobModel?> {
-//			return arrayOfNulls(size)
-//		}
-//	}
-//}
