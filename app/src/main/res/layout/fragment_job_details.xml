@@ -1,16 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
     tools:context=".view.fragments.JobDetailsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    android:id="@+id/textview"
+        android:layout_height="wrap_content"
+       android:id="@+id/companyName"
         android:textSize="20sp"
+android:layout_margin="8dp"
+        android:gravity="center_horizontal"
         android:textColor="@color/black"/>
 
-</FrameLayout>
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/companyLogo"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/jobTitle"
+        android:textSize="20sp"
+android:layout_margin="8dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/favorite"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>
