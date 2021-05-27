@@ -9,82 +9,66 @@ import com.example.jobsapp.data.model.JobModel
 import com.example.jobsapp.data.repository.MainRepository
 import com.example.jobsapp.data.utilities.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.ArrayList
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeFragmentViewModel  @Inject constructor(private val mainRepository : MainRepository): ViewModel(){
-
+class HomeFragmentViewModel @Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
     private val _res = MutableLiveData<Resource<List<JobModel>>>()
-    val res : LiveData<Resource<List<JobModel>>>
-    get() = _res
+    val res: LiveData<Resource<List<JobModel>>>
+        get() = _res
 
     private val _local = MutableLiveData<List<JobModel>>()
-    val local :LiveData< List<JobModel>>
-    get() = _local
+    val local: LiveData<List<JobModel>>
+        get() = _local
+
     init {
         getJobsFromInternet()
-     // getJobsFromDataBase()
-
     }
 
-
-
-
-    private fun getJobsFromInternet() = viewModelScope.launch {
+    private fun getJobsFromInternet() = viewModelScope.launch(Dispatchers.IO) {
         _res.postValue(Resource.loading(null))
         mainRepository.getJobsFomInternet().let {
-            if(it.isSuccessful){
+            if (it.isSuccessful) {
                 it.body()?.let { it1 ->
-
-                    val listFromDB =  getJobsFromDataBase()
-                    Log.e("taaggg" , listFromDB.size.toString() + "size " )
-
-                        if (listFromDB.size <= 0) {
-                            val array = mainRepository.insertAll(it1)
-                       //     Log.e("TAG", "size array " + array.size)
-                            getJobsFromDataBase()
-                        }else {
-                            for (item in it1){
-                                var exist = mainRepository.exists(item.id)
-                                if(!exist){
-                                    mainRepository.insertItem(item)
-                                }
+                    val listFromDB = getJobsFromDataBase()
+                    if (listFromDB.size <= 0) {
+                        mainRepository.insertAll(it1)
+                        getJobsFromDataBase()
+                    } else {
+                        for (item in it1) {
+                            var exist = mainRepository.exists(item.id)
+                            if (!exist) {
+                                mainRepository.insertItem(item)
                             }
-                            getJobsFromDataBase()
                         }
-
-
+                        getJobsFromDataBase()
+                    }
                 }
-
-
                 _res.postValue(Resource.success(it.body()))
-            }else {
+            } else {
                 _res.postValue(Resource.error(it.errorBody().toString(), null))
             }
         }
     }
 
-
-    private fun getJobsFromDataBase() : ArrayList<JobModel> {
-        var list :  ArrayList<JobModel> = arrayListOf()
-        viewModelScope.launch {
-            _res.postValue(Resource.loading(null))
-            mainRepository.getAll().let {
-                Log.e("tag", "size of array from DB" + it.size)
-                _local.postValue(it)
-                list = it as ArrayList<JobModel>
-
-
-            }
+    private suspend fun getJobsFromDataBase(): ArrayList<JobModel> {
+        var list: ArrayList<JobModel> = arrayListOf()
+        _res.postValue(Resource.loading(null))
+        mainRepository.getAll().let {
+            Log.e("tag", "size of array from DB" + it.size)
+            _local.postValue(it)
+            list = it as ArrayList<JobModel>
         }
         return list
     }
- fun updateItem(id :String , isFavorite : Int){
-        viewModelScope.launch {
-        mainRepository.updateJob(id , isFavorite)
-    }
-}
 
+    fun updateItem(id: String, isFavorite: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepository.updateJob(id, isFavorite)
+        }
     }
+
+}
