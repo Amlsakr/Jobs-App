@@ -10,14 +10,19 @@ import com.example.jobsapp.data.model.JobModel
 @Dao
 interface JobDao {
     @Query("SELECT * FROM job_table")
-    fun getAllJobs() : LiveData<List<JobModel>>
+ suspend   fun getAllJobs() : List<JobModel>
 
-    @Query("SELECT * FROM job_table WHERE id = :id")
-    fun getJob(id: String): LiveData<JobModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(jobItems: List<JobModel>)
+    suspend fun insertAll(jobItems: List<JobModel>) : List<Long>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(jobItem: JobModel)
+
+    @Query("UPDATE job_table SET isfavourit = :isFavorite WHERE id = :id")
+   suspend fun updateJob(id: String, isFavorite: Int): Int
+
+    @Query("SELECT EXISTS (SELECT 1 FROM job_table WHERE id = :id)")
+    fun exists(id: String): Boolean
+
 }

@@ -2,6 +2,7 @@ package com.example.jobsapp.data.model
 
 
 import android.os.Parcelable
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -31,17 +32,16 @@ data class JobModel(
 
 	@field:SerializedName("location")
 	val location: String? = null,
-
+	var isfavourit: Int? = 0,
 	@PrimaryKey
+	@NonNull
 	@field:SerializedName("id")
-	val id: String? = null,
-
+	val id: String,
 	@field:SerializedName("type")
 	val type: String? = null,
-
 	@field:SerializedName("title")
 	val title: String? = null,
-
 	@field:SerializedName("url")
-	val url: String? = null
+	val url: String? = null,
+
 ) : Parcelable

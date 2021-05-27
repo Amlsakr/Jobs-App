@@ -1,6 +1,7 @@
 package com.example.jobsapp.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,30 +29,44 @@ class HomeFragment : Fragment() , ItemClickListener{
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(layoutInflater)
         val view = binding.root
-        homeFragmentViewModel.res.observe(requireActivity(), Observer {
-            when(it.status) {
-                Status.SUCCESS -> {
+//        homeFragmentViewModel.res.observe(requireActivity(), Observer {
+//            when(it.status) {
+//                Status.SUCCESS -> {
+//                    binding.progress.visibility = View.GONE
+//                    binding.homeRecyclerView.visibility = View.VISIBLE
+//                    it.data.let { res ->
+//                        homeAdapter = HomeAdapter(requireContext(), res!!, this)
+//                        binding.homeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+//                        binding.homeRecyclerView.adapter = homeAdapter
+//
+//                    }
+//                }
+//
+//                Status.LOADING -> {
+//                    binding.progress.visibility = View.VISIBLE
+//                    binding.homeRecyclerView.visibility = View.GONE
+//                }
+//                Status.ERROR -> {
+//                    binding.progress.visibility = View.GONE
+//                    binding.homeRecyclerView.visibility = View.VISIBLE
+//                    Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT)
+//                        .show()
+//                }
+//            }})
+        homeFragmentViewModel.local.observe(requireActivity() , Observer {
+
+            it.let { res ->
+                if (res != null) {
                     binding.progress.visibility = View.GONE
                     binding.homeRecyclerView.visibility = View.VISIBLE
-                    it.data.let { res ->
-                        homeAdapter = HomeAdapter(requireContext(), res!!, this)
-                        binding.homeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                        binding.homeRecyclerView.adapter = homeAdapter
+                    homeAdapter = HomeAdapter(requireContext(), res, this)
+                    binding.homeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                    binding.homeRecyclerView.adapter = homeAdapter
+                //    Log.e("tag" , "HomeFragment List from room" + res.size)
+                }
+            }
 
-                    }
-                }
-
-                Status.LOADING -> {
-                    binding.progress.visibility = View.VISIBLE
-                    binding.homeRecyclerView.visibility = View.GONE
-                }
-                Status.ERROR -> {
-                    binding.progress.visibility = View.GONE
-                    binding.homeRecyclerView.visibility = View.VISIBLE
-                    Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT)
-                        .show()
-                }
-            }})
+        })
         return view
     }
 
@@ -59,6 +74,12 @@ class HomeFragment : Fragment() , ItemClickListener{
 
         val action = HomeFragmentDirections.actionHomeFragmentToJobDetailsFragment(jobItem)
         view?.findNavController()?.navigate(action)
+    }
+
+    override fun onClickFaviourit(jobItem: JobModel, isFavourit: Int) {
+       // jobItem.isfavourit = isFavourit
+    //    homeFragmentViewModel.InsertItemInFavorite(jobItem)
+        homeFragmentViewModel.updateItem(jobItem.id ,isFavourit)
     }
 
 
